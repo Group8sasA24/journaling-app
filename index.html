@@ -1,0 +1,271 @@
+<!-- Lumi's Self-Love Journaling App -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Journaling App - Day by Day</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #fdf6f9;
+      color: #444;
+    }
+
+    header {
+      background: linear-gradient(90deg, #ffe4e6, #e0f7fa);
+      padding: 20px;
+      text-align: center;
+      color: #444;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px;
+    }
+
+    .days {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .day-button {
+      flex: 1 1 70px;
+      background: #fce4ec;
+      color: #333;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .day-button:hover {
+      background: #f8bbd0;
+    }
+
+    .question-area, .sticky-note {
+      margin-top: 20px;
+      background: #fff0f6;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    textarea {
+      width: 100%;
+      height: 400px;
+      margin-top: 10px;
+      border-radius: 8px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      resize: vertical;
+    }
+
+    select {
+      width: 50%;
+      height: 70px;
+      margin-top: 10px;
+      border-radius: 8px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      resize: vertical;
+    }
+
+    button.save {
+      margin-top: 10px;
+      background: #f48fb1;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .affirmation {
+      margin-top: 30px;
+      font-style: italic;
+      background: #fce4ec;
+      padding: 15px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="welcomeText">30-Day Self-Love Journal 🌸</h1>
+    <p>Grow with love, one day at a time 💖</p>
+  </header>
+  <div class="container">
+
+    <div id="loginSection">
+      <h2>Welcome ✨</h2>
+      <input type="text" id="username" placeholder="Enter your name" />
+      <input type="password" id="password" placeholder="Enter your password" />
+      <button onclick="loginUser()">Log in</button>
+    </div>
+
+    <div id="journalSection" style="display:none;">
+      <div class="days" id="days"></div>
+
+      <div class="question-area" id="questionArea" style="display:none;">
+        <h3 id="questionTitle"></h3>
+        <p>Halooow <strong id="displayUser"></strong>, How you feel today? 😊</p>
+        <label for="mood">Choose your emotion:</label>
+        <select id="mood">
+          <option>Proud 🏆</option>
+          <option>Excited 🤩</option>
+          <option>Happy 😊</option>
+          <option>Relaxed 🧘‍♀️</option>
+          <option>Curious 🤔</option>
+          <option>Insecure 😟</option>
+          <option>Overwhelmed 😵‍💫</option>
+          <option>Sad 😢</option>
+          <option>Angry 😠</option>
+          <option>Embarrassed 😳</option>
+          <option>Confused 😕</option>
+          <option>Stressed 😫</option>
+          <option>Scared 😨</option>
+        </select>
+        <textarea id="journalEntry" placeholder="Write here..."></textarea>
+        <button class="save" onclick="saveJournal()">Save</button>
+      </div>
+
+      <div class="sticky-note">
+        <h3>Special words for you:</h3>
+        <p id="affirmation"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      "What’s one small thing that made you smile today?", 
+      "Who’s been on your mind a lot lately? Why?", 
+      "If you could relive one day of your life", 
+      "which one would it be and why?", 
+      "What are you most grateful for today?", 
+      "How do you feel today? Describe it in one word, then explain.", 
+      "What’s the most spontaneous thing you’ve ever done?", 
+      "What was your childhood dream? Do you still want it?",
+      "What brings you a sense of peace?", 
+      "What’s a fear you’ve never shared with anyone?", 
+      "Write down one lie you told that you still remember today.", 
+      "Who hurt you in the past, and what would you say to them if you had the chance?", 
+      "What song best matches your current mood?", 
+      "If you could erase one memory, what would it be?", 
+      "What’s a small achievement you're proud of today?", 
+      "What does 'home' mean to you?", 
+      "When was the last time you truly felt loved?", 
+      "If you could give advice to your past self from five years ago, what would you say?", 
+      "What does happiness mean to you?", 
+      "one bad habit you want to let go of?", 
+      "What’s something you’ve always wanted to learn but haven’t yet?", 
+      "If today were your last day, what would you do?", 
+      "What does success look like to you?", "Who do you secretly admire? Why?", 
+      "What’s the most important lesson pain has taught you?", 
+      "What’s the most honest thing you want to say to yourself?", 
+      "If you could talk to your childhood self, what would you say?", 
+      "What keeps you going on your hardest days?", 
+      "What’s something you’re currently struggling with?", 
+      "What’s one thing you’re ready to let go of?", 
+      "After these 30 days, what have you learned about yourself?",
+    ];
+
+    const affirmations = [
+      "💪 You got this. Even on the tough days, remember how far you’ve come. You are stronger than you know.",
+      "👣 One step at a time. You don’t need to have it all figured out today. Just keep moving, even slowly.",
+      "🌬 Breathe. You’re okay. Inhale calm, exhale stress. You’re doing the best you can, and that’s enough.",
+      "➡ Keep going. You’ve already made it through so much. Don’t stop now. Your journey is still unfolding.",
+      "🧠 You’re stronger than you think. You’ve survived all your bad days so far—give yourself credit for that.",
+      "📈 Progress, not perfection. Every small step matters. Growth is messy, and that’s okay.",
+      "⏳ Trust the timing. What’s meant for you will never miss you. Be patient with your process.",
+      "🚪 Just show up. You don’t have to be perfect—just be present. That’s already brave.",
+      "🌟 You matter. Your story matters. Your presence matters. Never forget your worth.",
+      "❌ Don’t give up. It’s okay to rest. But don’t quit. The world still needs your light.",
+      "✨ Keep shining. Shine your light in your own way. Even a small light can brighten the dark.",
+      "🛌 It’s okay to rest. Resting doesn’t mean failing. It means honoring your body and soul.",
+      "🌱 You’re growing. Even if you can’t see it yet, the change is happening. Be gentle with yourself.",
+      "🙌 Believe in yourself. You have everything within you to create magic. Trust that.",
+      "💔 Feel it. 💖 Heal it. Let yourself feel fully. That’s the first step toward healing.",
+      "🌅 Light is coming. No matter how dark it seems now, the sun will rise again.",
+      "🫶 You are enough. Just as you are, without needing to do or prove anything.",
+      "🙏 Keep the faith. When things feel uncertain, hold on to hope. You’re not lost—you’re learning.",
+      "🌊 Let it flow. Release control. Let things be. Let peace find you.",
+      "🎯 You’re doing great. Even if no one says it, you’re doing an amazing job simply by trying.",
+      "📅 One day at a time. Focus on today. Tomorrow will take care of itself.",
+      "🕊 Choose peace. Not everything needs a reaction. Protect your inner calm.",
+      "🌸 Stay soft, stay strong. Kindness is powerful. Your softness is your strength.",
+      "🏃‍♀ Your pace is perfect. Don’t rush. Don’t compare. You are right where you need to be.",
+      "🤍 Keep your heart open. Stay open to love, to learning, to life—even when it hurts.",
+      "💐 Still here, still trying. That’s already a win. Your effort means everything.",
+      "🩷 Healing is not linear. Some days will feel like setbacks. Others like breakthroughs. All are valid.",
+      "🌻 Little wins count too. Waking up, eating well, smiling again—these are victories.",
+      "❤‍🩹 You are not alone. Even when it feels like no one understands, someone does. And they care.",
+      "🌈 The best is yet to come. Your story isn’t over. Better chapters are ahead. Just hold on. ✨",
+    ];
+
+    const daysContainer = document.getElementById('days');
+    const loginSection = document.getElementById('loginSection');
+    const journalSection = document.getElementById('journalSection');
+    const displayUser = document.getElementById('displayUser');
+    const welcomeText = document.getElementById('welcomeText');
+
+    let currentDay = 1;
+    let currentUser = "";
+
+    function loginUser() {
+      const name = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      if (!name || !password) {
+        alert("Masukkan nama dan password dulu ya!");
+        return;
+      }
+      currentUser = `${name}_${password}`;
+      loginSection.style.display = "none";
+      journalSection.style.display = "block";
+      welcomeText.innerHTML = `Selamat datang di jurnalmu, ${name} 🌷`;
+      displayUser.textContent = name;
+
+      const randomAffirm = affirmations[Math.floor(Math.random() * affirmations.length)];
+      document.getElementById('affirmation').textContent = randomAffirm;
+    }
+
+    for (let i = 1; i <= 30; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'day-button';
+      btn.textContent = `Day ${i}`;
+      btn.onclick = () => showQuestion(i);
+      daysContainer.appendChild(btn);
+    }
+
+    function showQuestion(day) {
+      const qText = questions[day - 1] || "Bagikan apa pun yang ingin kamu refleksikan hari ini.";
+      document.getElementById('questionTitle').textContent = `Day ${day}: ${qText}`;
+      document.getElementById('questionArea').style.display = 'block';
+      document.getElementById('journalEntry').value = localStorage.getItem(`${currentUser}_journal_day_${day}`) || "";
+      currentDay = day;
+    }
+
+    function saveJournal() {
+      const text = document.getElementById('journalEntry').value;
+      const mood = document.getElementById('mood').value;
+      localStorage.setItem(`${currentUser}_journal_day_${currentDay}`, text);
+      localStorage.setItem(`${currentUser}_mood_day_${currentDay}`, mood);
+      alert("📒 Your journal and emotions are saved! ");
+    }
+  </script>
+</body>
+</html>
