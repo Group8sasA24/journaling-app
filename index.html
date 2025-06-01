@@ -1,4 +1,4 @@
-<!-- Lumi's Self-Love Journaling App -->
+<!-- Group 8 Self-Love Journaling App -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,11 +6,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Journaling App - Day by Day</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Sacramento&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Quicksand', sans-serif;
     }
 
     body {
@@ -24,12 +24,40 @@
       padding: 20px;
       text-align: center;
       color: #444;
+      font-family: 'Sacramento', cursive;
     }
 
     .container {
       max-width: 900px;
       margin: auto;
       padding: 30px;
+    }
+
+    .login-card {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      background: #f48fb1;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 5px;
     }
 
     .days {
@@ -84,16 +112,6 @@
       resize: vertical;
     }
 
-    button.save {
-      margin-top: 10px;
-      background: #f48fb1;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
     .affirmation {
       margin-top: 30px;
       font-style: italic;
@@ -110,10 +128,12 @@
   </header>
   <div class="container">
 
-    <div id="loginSection">
+    <div id="loginSection" class="login-card">
       <h2>Welcome ✨</h2>
       <input type="text" id="username" placeholder="Enter your name" />
       <input type="password" id="password" placeholder="Enter your password" />
+      <br />
+      <button onclick="createAccount()">Create Account</button>
       <button onclick="loginUser()">Log in</button>
     </div>
 
@@ -125,7 +145,7 @@
         <p>Halooow <strong id="displayUser"></strong>, How you feel today? 😊</p>
         <label for="mood">Choose your emotion:</label>
         <select id="mood">
-          <option>Proud 🏆</option>
+          <option>-</option>
           <option>Excited 🤩</option>
           <option>Happy 😊</option>
           <option>Relaxed 🧘‍♀️</option>
@@ -152,36 +172,36 @@
 
   <script>
     const questions = [
-      "What’s one small thing that made you smile today?", 
-      "Who’s been on your mind a lot lately? Why?", 
-      "If you could relive one day of your life", 
-      "which one would it be and why?", 
-      "What are you most grateful for today?", 
-      "How do you feel today? Describe it in one word, then explain.", 
-      "What’s the most spontaneous thing you’ve ever done?", 
+      "What’s one small thing that made you smile today?",
+      "Who’s been on your mind a lot lately? Why?",
+      "If you could relive one day of your life, which one would it be and why?",
+      "What are you most grateful for today?",
+      "How do you feel today? Describe it in one word, then explain.",
+      "What’s the most spontaneous thing you’ve ever done?",
       "What was your childhood dream? Do you still want it?",
-      "What brings you a sense of peace?", 
-      "What’s a fear you’ve never shared with anyone?", 
-      "Write down one lie you told that you still remember today.", 
-      "Who hurt you in the past, and what would you say to them if you had the chance?", 
-      "What song best matches your current mood?", 
-      "If you could erase one memory, what would it be?", 
-      "What’s a small achievement you're proud of today?", 
-      "What does 'home' mean to you?", 
-      "When was the last time you truly felt loved?", 
-      "If you could give advice to your past self from five years ago, what would you say?", 
-      "What does happiness mean to you?", 
-      "one bad habit you want to let go of?", 
-      "What’s something you’ve always wanted to learn but haven’t yet?", 
-      "If today were your last day, what would you do?", 
-      "What does success look like to you?", "Who do you secretly admire? Why?", 
-      "What’s the most important lesson pain has taught you?", 
-      "What’s the most honest thing you want to say to yourself?", 
-      "If you could talk to your childhood self, what would you say?", 
-      "What keeps you going on your hardest days?", 
-      "What’s something you’re currently struggling with?", 
-      "What’s one thing you’re ready to let go of?", 
-      "After these 30 days, what have you learned about yourself?",
+      "What brings you a sense of peace?",
+      "What’s a fear you’ve never shared with anyone?",
+      "Write down one lie you told that you still remember today.",
+      "Who hurt you in the past, and what would you say to them if you had the chance?",
+      "What song best matches your current mood?",
+      "If you could erase one memory, what would it be?",
+      "What’s a small achievement you're proud of today?",
+      "What does 'home' mean to you?",
+      "When was the last time you truly felt loved?",
+      "If you could give advice to your past self from five years ago, what would you say?",
+      "What does happiness mean to you?",
+      "One bad habit you want to let go of?",
+      "What’s something you’ve always wanted to learn but haven’t yet?",
+      "If today were your last day, what would you do?",
+      "What does success look like to you?",
+      "Who do you secretly admire? Why?",
+      "What’s the most important lesson pain has taught you?",
+      "What’s the most honest thing you want to say to yourself?",
+      "If you could talk to your childhood self, what would you say?",
+      "What keeps you going on your hardest days?",
+      "What’s something you’re currently struggling with?",
+      "What’s one thing you’re ready to let go of?",
+      "After these 30 days, what have you learned about yourself?"
     ];
 
     const affirmations = [
@@ -214,33 +234,44 @@
       "🩷 Healing is not linear. Some days will feel like setbacks. Others like breakthroughs. All are valid.",
       "🌻 Little wins count too. Waking up, eating well, smiling again—these are victories.",
       "❤‍🩹 You are not alone. Even when it feels like no one understands, someone does. And they care.",
-      "🌈 The best is yet to come. Your story isn’t over. Better chapters are ahead. Just hold on. ✨",
+      "🌈 The best is yet to come. Your story isn’t over. Better chapters are ahead. Just hold on. ✨"
     ];
 
     const daysContainer = document.getElementById('days');
-    const loginSection = document.getElementById('loginSection');
-    const journalSection = document.getElementById('journalSection');
     const displayUser = document.getElementById('displayUser');
     const welcomeText = document.getElementById('welcomeText');
 
-    let currentDay = 1;
     let currentUser = "";
+    let currentDay = 1;
+
+    function createAccount() {
+      const name = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      if (!name || !password) {
+        alert("Please fill in both name and password to create an account.");
+        return;
+      }
+      localStorage.setItem(`user_${name}`, password);
+      alert("Account created successfully! You can now log in.");
+    }
 
     function loginUser() {
       const name = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value.trim();
-      if (!name || !password) {
-        alert("Masukkan nama dan password dulu ya!");
-        return;
-      }
-      currentUser = `${name}_${password}`;
-      loginSection.style.display = "none";
-      journalSection.style.display = "block";
-      welcomeText.innerHTML = `Selamat datang di jurnalmu, ${name} 🌷`;
-      displayUser.textContent = name;
+      const storedPassword = localStorage.getItem(`user_${name}`);
 
-      const randomAffirm = affirmations[Math.floor(Math.random() * affirmations.length)];
-      document.getElementById('affirmation').textContent = randomAffirm;
+      if (password === storedPassword) {
+        currentUser = name;
+        document.getElementById('loginSection').style.display = "none";
+        document.getElementById('journalSection').style.display = "block";
+        welcomeText.innerHTML = `Welcome to your journal, ${name} 🌷`;
+        displayUser.textContent = name;
+
+        const randomAffirm = affirmations[Math.floor(Math.random() * affirmations.length)];
+        document.getElementById('affirmation').textContent = randomAffirm;
+      } else {
+        alert("Invalid login. Please check your name and password.");
+      }
     }
 
     for (let i = 1; i <= 30; i++) {
@@ -252,7 +283,7 @@
     }
 
     function showQuestion(day) {
-      const qText = questions[day - 1] || "Bagikan apa pun yang ingin kamu refleksikan hari ini.";
+      const qText = questions[day - 1];
       document.getElementById('questionTitle').textContent = `Day ${day}: ${qText}`;
       document.getElementById('questionArea').style.display = 'block';
       document.getElementById('journalEntry').value = localStorage.getItem(`${currentUser}_journal_day_${day}`) || "";
