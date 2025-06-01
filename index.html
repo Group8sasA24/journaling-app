@@ -1,4 +1,4 @@
-<!-- Group 8 Self-Love Journaling App -->
+<!-- Lumi's Self-Love Journaling App -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,17 +6,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Journaling App - Day by Day</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Sacramento&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Sacramento&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
-      font-family: 'Quicksand', sans-serif;
+      font-family: 'Playfair Display', serif;
     }
 
     body {
       margin: 0;
       background: #fdf6f9;
       color: #444;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark-mode {
+      background: #1e1e1e;
+      color: #ddd;
     }
 
     header {
@@ -25,6 +31,11 @@
       text-align: center;
       color: #444;
       font-family: 'Sacramento', cursive;
+    }
+
+    body.dark-mode header {
+      background: linear-gradient(90deg, #333, #555);
+      color: #eee;
     }
 
     .container {
@@ -60,6 +71,10 @@
       margin: 5px;
     }
 
+    .theme-toggle {
+      background: #bbb;
+    }
+
     .days {
       display: flex;
       flex-wrap: wrap;
@@ -78,6 +93,11 @@
       font-weight: 500;
     }
 
+    body.dark-mode .day-button {
+      background: #333;
+      color: #eee;
+    }
+
     .day-button:hover {
       background: #f8bbd0;
     }
@@ -88,6 +108,11 @@
       border-radius: 10px;
       padding: 20px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    body.dark-mode .question-area,
+    body.dark-mode .sticky-note {
+      background: #2a2a2a;
     }
 
     textarea {
@@ -135,6 +160,9 @@
       <br />
       <button onclick="createAccount()">Create Account</button>
       <button onclick="loginUser()">Log in</button>
+      <button onclick="recoverPassword()">Forgot Password?</button>
+      <br />
+      <button class="theme-toggle" onclick="toggleTheme()">Change Theme</button>
     </div>
 
     <div id="journalSection" style="display:none;">
@@ -244,6 +272,10 @@
     let currentUser = "";
     let currentDay = 1;
 
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+    }
+
     function createAccount() {
       const name = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value.trim();
@@ -253,6 +285,16 @@
       }
       localStorage.setItem(`user_${name}`, password);
       alert("Account created successfully! You can now log in.");
+    }
+
+    function recoverPassword() {
+      const name = document.getElementById('username').value.trim();
+      const storedPassword = localStorage.getItem(`user_${name}`);
+      if (storedPassword) {
+        alert(`Your password is: ${storedPassword}`);
+      } else {
+        alert("Account not found. Please check your name or create an account.");
+      }
     }
 
     function loginUser() {
